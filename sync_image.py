@@ -25,14 +25,14 @@ def pull_image():
             cmd = "docker tag {0}   {1}".format(name, image)
             subprocess.call("docker pull {}".format(name), shell=True)
             subprocess.run(["docker", "tag", name, image])
-            subprocess.call("docker login -u 2272714210@qq.com -p qwer123456", shell=True)
+            subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
             subprocess.call("docker push {}".format(image), shell=True)
         else:
             new_name = "2272714210/" + name.split("/")[-1]
             cmd = "docker tag {0}   {1}".format(name, new_name)
             subprocess.call("docker pull {}".format(name), shell=True)
             subprocess.run(["docker", "tag", name, new_name])
-            subprocess.call("docker login -u 2272714210@qq.com -p qwer123456", shell=True)
+            subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
             subprocess.call("docker push {}".format(new_name), shell=True)
         
 if __name__ == "__main__":
