@@ -1,5 +1,7 @@
 # coding:utf-8
 import subprocess, os
+
+
 def get_filename():
     with open("images.txt", "r") as f:
         lines = f.read().split('\n')
@@ -15,25 +17,27 @@ def get_filename():
 
 def pull_image():
     name_list= get_filename()
+    subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
     for name in name_list:
         if 'sha256' in name:
             print(name)
             sha256_name = name.split("@")
             new_name = sha256_name[0].split("/")[-1]
-            tag = sha256_name[-1].split(":")[-1]
+            tag = sha256_name[-1].split(":")[-1][:6]
             image = "2272714210/" + new_name + ":"+ tag
             cmd = "docker tag {0}   {1}".format(name, image)
             subprocess.call("docker pull {}".format(name), shell=True)
             subprocess.run(["docker", "tag", name, image])
-            subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
+            # subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
             subprocess.call("docker push {}".format(image), shell=True)
         else:
             new_name = "2272714210/" + name.split("/")[-1]
             cmd = "docker tag {0}   {1}".format(name, new_name)
             subprocess.call("docker pull {}".format(name), shell=True)
             subprocess.run(["docker", "tag", name, new_name])
-            subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
+            # subprocess.call("docker login -u 2272714210 -p qwer123456", shell=True)
             subprocess.call("docker push {}".format(new_name), shell=True)
-        
+
+
 if __name__ == "__main__":
     pull_image()
